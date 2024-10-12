@@ -13,11 +13,11 @@ class IngredientRepository : IngredientRepository{
 
     override fun findAll() = transaction {
         Ingredients.selectAll()
-            .map { mapToIngredient(it) }
+            .map { mapToDomain(it) }
     }
 
 
-    private fun mapToIngredient(resultRow: ResultRow) : Ingredient {
+    private fun mapToDomain(resultRow: ResultRow) : Ingredient {
         return Ingredient(
             id = resultRow[Ingredients.id],
             name = resultRow[Ingredients.name],
