@@ -16,7 +16,6 @@
 
     <modules>
         <module>app</module>
-        <module>infrastructure</module>
     </modules>
 
     <properties>
