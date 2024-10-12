@@ -16,6 +16,9 @@
 
     <modules>
         <module>app</module>
+        <module>api</module>
+        <module>Infrastructure</module>
+        <module>domain</module>
     </modules>
 
     <properties>
