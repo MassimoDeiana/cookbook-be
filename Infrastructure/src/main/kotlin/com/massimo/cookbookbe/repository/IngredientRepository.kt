@@ -4,6 +4,7 @@ import com.massimo.cookbookbe.domain.Ingredient
 import com.massimo.cookbookbe.entity.Ingredients
 import com.massimo.cookbookbe.ports.secondary.IngredientRepository
 import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.stereotype.Repository
@@ -14,6 +15,13 @@ class IngredientRepository : IngredientRepository{
     override fun findAll() = transaction {
         Ingredients.selectAll()
             .map { mapToDomain(it) }
+    }
+
+    override fun save(ingredient: Ingredient) = transaction {
+        Ingredients.insert {
+            it[name] = "name"
+            it[description] = "description"
+        } get Ingredients.id
     }
 
 

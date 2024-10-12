@@ -5,4 +5,5 @@ import com.massimo.cookbookbe.domain.Ingredient
 interface IngredientRepository {
 
     fun findAll() : List<Ingredient>
+    fun save(ingredient: Ingredient) : Int
 }
