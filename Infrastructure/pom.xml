@@ -116,6 +116,12 @@
             <version>4.8.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.willowtreeapps.assertk</groupId>
+            <artifactId>assertk-jvm</artifactId>
+            <version>0.28.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

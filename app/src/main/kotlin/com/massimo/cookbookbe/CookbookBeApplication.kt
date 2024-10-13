@@ -7,5 +7,7 @@ import org.springframework.boot.runApplication
 class CookbookBeApplication
 
 fun main(args: Array<String>) {
+
     runApplication<CookbookBeApplication>(*args)
+
 }

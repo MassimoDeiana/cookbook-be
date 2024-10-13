@@ -1,10 +1,15 @@
 package com.massimo.cookbookbe.repository
 
+import assertk.assertThat
+import assertk.assertions.isEmpty
+import assertk.assertions.isEqualTo
+import assertk.assertions.isNotEmpty
 import com.massimo.cookbookbe.domain.Ingredient
 import com.massimo.cookbookbe.entity.Ingredients
 import org.instancio.Instancio
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -12,6 +17,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
+
+const val INGREDIENT_ID = 1
 
 @SpringBootTest(classes = [IngredientRepository::class])
 class IngredientTest() {
@@ -24,6 +31,7 @@ class IngredientTest() {
         Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;", driver = "org.h2.Driver")
         transaction {
             SchemaUtils.create(Ingredients)
+            addIngredientIntoDb()
         }
     }
 
@@ -37,25 +45,47 @@ class IngredientTest() {
 
     @Test
     fun `findAll should return empty list of ingredients when ingredients is empty`() {
+        transaction {
+            Ingredients.deleteAll()
+        }
         val ingredients = ingredientRepository.findAll()
-        assert(ingredients.isEmpty())
+        assertThat(ingredients).isEmpty()
     }
 
     @Test
     fun `save should return ingredient id`() {
+        transaction {
+            Ingredients.deleteAll()
+        }
         val ingredient = ingredient()
         val id = ingredientRepository.save(ingredient)
-        assert(id == 1)
+        assertThat(id).isEqualTo(2)
     }
 
     @Test
     fun `findAll should return list of ingredients`() {
-        val ingredient = ingredient()
-        ingredientRepository.save(ingredient)
         val ingredients = ingredientRepository.findAll()
-        assert(ingredients.isNotEmpty())
+        assertThat(ingredients).isNotEmpty()
     }
 
+    @Test
+    fun `findById should return ingredient with matching id`() {
+        val foundIngredient = ingredientRepository.findById(INGREDIENT_ID)
+        assertThat(foundIngredient.id).isEqualTo(INGREDIENT_ID)
+    }
+
+    @Test
+    fun `delete should remove ingredient from db`() {
+        ingredientRepository.delete(INGREDIENT_ID)
+        val ingredients = ingredientRepository.findAll()
+        assertThat(ingredients).isEmpty()
+
+    }
+
+    private fun addIngredientIntoDb() {
+        val ingredient = ingredient()
+        ingredientRepository.save(ingredient)
+    }
 
     fun ingredient(): Ingredient = Instancio.of(Ingredient::class.java).create()
 
