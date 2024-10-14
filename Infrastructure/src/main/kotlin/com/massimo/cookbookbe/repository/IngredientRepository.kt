@@ -29,14 +29,14 @@ class IngredientRepository : IngredientRepository{
         } get Ingredients.id
     }
 
-    override fun findById(ingredientId: Int) = transaction {
+    override fun findById(ingredientId: Long) = transaction {
         Ingredients.selectAll()
             .where { Ingredients.id eq ingredientId }
             .map { mapToDomain(it) }
             .first()
     }
 
-    override fun delete(ingredientId: Int) = transaction {
+    override fun delete(ingredientId: Long) = transaction {
         val rowDeleted = Ingredients.deleteWhere{ id eq ingredientId }
         rowDeleted > 0
     }

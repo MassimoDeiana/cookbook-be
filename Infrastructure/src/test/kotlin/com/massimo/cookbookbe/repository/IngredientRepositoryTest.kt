@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 
-const val INGREDIENT_ID = 1
+const val INGREDIENT_ID = 1L
 
 @SpringBootTest(classes = [IngredientRepository::class])
 class IngredientRepositoryTest() {
