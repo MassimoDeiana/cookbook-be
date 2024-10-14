@@ -33,7 +33,7 @@ class IngredientRepository : IngredientRepository{
         Ingredients.selectAll()
             .where { Ingredients.id eq ingredientId }
             .map { mapToDomain(it) }
-            .first()
+            .firstOrNull()
     }
 
     override fun delete(ingredientId: Long) = transaction {

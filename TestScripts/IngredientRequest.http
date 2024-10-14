@@ -1,1 +1,5 @@
 GET localhost:8080/ingredients
+
+###
+
+GET localhost:8080/ingredient/10

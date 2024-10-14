@@ -6,9 +6,9 @@ interface IngredientRepository {
 
     fun findAll() : List<Ingredient>
 
-    fun save(ingredient: Ingredient) : Long
+    fun findById(ingredientId: Long): Ingredient?
 
-    fun findById(ingredientId: Long): Ingredient
+    fun save(ingredient: Ingredient) : Long
 
     fun delete(ingredientId: Long) : Boolean
 
