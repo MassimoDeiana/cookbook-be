@@ -73,7 +73,7 @@ class IngredientRepositoryTest() {
     @Test
     fun `findById should return ingredient with matching id`() {
         val foundIngredient = ingredientRepository.findById(INGREDIENT_ID)
-        assertThat(foundIngredient.id).isEqualTo(INGREDIENT_ID)
+        assertThat(foundIngredient!!.id).isEqualTo(INGREDIENT_ID)
     }
 
     @Test
