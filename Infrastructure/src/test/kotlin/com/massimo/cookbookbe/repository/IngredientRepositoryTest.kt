@@ -4,7 +4,9 @@ import assertk.assertThat
 import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotEmpty
+import com.massimo.cookbookbe.domain.Category
 import com.massimo.cookbookbe.domain.Ingredient
+import com.massimo.cookbookbe.domain.Unit
 import com.massimo.cookbookbe.entity.Ingredients
 import org.instancio.Instancio
 import org.jetbrains.exposed.sql.Database
@@ -21,7 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest
 const val INGREDIENT_ID = 1
 
 @SpringBootTest(classes = [IngredientRepository::class])
-class IngredientTest() {
+class IngredientRepositoryTest() {
 
     @Autowired
     lateinit var ingredientRepository: IngredientRepository
@@ -79,7 +81,13 @@ class IngredientTest() {
         ingredientRepository.delete(INGREDIENT_ID)
         val ingredients = ingredientRepository.findAll()
         assertThat(ingredients).isEmpty()
+    }
 
+    @Test
+    fun `update should update ingredient in db`() {
+        val ingredient = Ingredient(INGREDIENT_ID, "Updated Ingredient", "Updated Description", Unit.GRAM, Category.MEAT)
+        val isIngredientUpdated = ingredientRepository.update(ingredient)
+        assertThat(isIngredientUpdated).isEqualTo(true)
     }
 
     private fun addIngredientIntoDb() {

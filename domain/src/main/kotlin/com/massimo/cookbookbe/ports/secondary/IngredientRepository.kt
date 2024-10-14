@@ -12,4 +12,5 @@ interface IngredientRepository {
 
     fun delete(ingredientId: Int) : Boolean
 
+    fun update(ingredient: Ingredient) : Boolean
 }
