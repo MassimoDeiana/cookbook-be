@@ -1,5 +1,6 @@
 package com.massimo.cookbookbe.ports.primary
 
+import com.massimo.cookbookbe.command.ingredient.CreateIngredientCommand
 import com.massimo.cookbookbe.domain.Ingredient
 
 interface IngredientService {
@@ -8,7 +9,7 @@ interface IngredientService {
 
     fun findById(id: Long) : Ingredient
 
-    fun save(ingredient: Ingredient) : Long
+    fun save(createIngredientCommand: CreateIngredientCommand) : Long
 
     fun delete(id: Long) : Boolean
 

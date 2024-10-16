@@ -1,5 +1,31 @@
-GET localhost:8080/ingredients
+### Get all ingredients
+GET http://localhost:8080/ingredients?category=FRUIT
+Accept: application/json
 
-###
+### Get ingredient by ID
+GET http://localhost:8080/ingredient/2
+Accept: application/json
 
-GET localhost:8080/ingredient/10
+### Create a new ingredient
+POST http://localhost:8080/ingredient
+Content-Type: application/json
+
+{
+  "name": "Potato",
+  "quantity": 10,
+  "unit": "GRAM",
+  "description": "",
+  "category": "MEAT"
+}
+
+### Update an existing ingredient
+PUT http://localhost:8080/ingredient/1
+Content-Type: application/json
+
+{
+  "name": "Salad",
+  "quantity": 15,
+  "unit": "GRAM",
+  "description": "",
+  "category": "MEAT"
+}

@@ -23,6 +23,7 @@ class ExceptionHandler {
             status
         )
     }
+
 }
 
 data class ErrorDetails(

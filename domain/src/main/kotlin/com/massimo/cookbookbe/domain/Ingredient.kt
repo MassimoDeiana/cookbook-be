@@ -5,5 +5,6 @@ data class Ingredient(
     val name: String,
     val description: String,
     val unit: Unit,
-    val category: Category
+    val category: Category,
+    val quantityInStock: Int
 )

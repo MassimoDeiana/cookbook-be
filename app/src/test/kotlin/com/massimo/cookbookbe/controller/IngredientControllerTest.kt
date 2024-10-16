@@ -1,9 +1,11 @@
 package com.massimo.cookbookbe.controller
 
+import com.massimo.cookbookbe.command.ingredient.IngredientCommands
 import com.massimo.cookbookbe.domain.Ingredient
 import com.massimo.cookbookbe.exception.ExceptionHandler
 import com.massimo.cookbookbe.exceptions.IngredientNotFoundException
-import com.massimo.cookbookbe.service.IngredientService
+import com.massimo.cookbookbe.queries.ingredient.IngredientFilter
+import com.massimo.cookbookbe.queries.ingredient.IngredientQueries
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.instancio.Instancio
@@ -21,14 +23,17 @@ import kotlin.test.Test
 class IngredientControllerTest {
 
     @MockkBean
-    private lateinit var ingredientService: IngredientService
+    private lateinit var ingredientQueries: IngredientQueries
+
+    @MockkBean
+    private lateinit var ingredientCommands: IngredientCommands
 
     private lateinit var mockMvc: MockMvc
 
     @BeforeEach
     fun setup(){
         mockMvc = MockMvcBuilders
-            .standaloneSetup(IngredientController(ingredientService))
+            .standaloneSetup(IngredientController(ingredientQueries, ingredientCommands))
             .setControllerAdvice(ExceptionHandler())
             .build()
     }
@@ -37,7 +42,7 @@ class IngredientControllerTest {
     fun `findAll should return all ingredients`() {
         val firstIngredient = ingredient()
         val secondIngredient = ingredient()
-        every { ingredientService.findAll() } returns listOf(firstIngredient, secondIngredient)
+        every { ingredientQueries.findAll(IngredientFilter()) } returns listOf(firstIngredient, secondIngredient)
 
         mockMvc.perform(get("/ingredients"))
             .andExpectAll(
@@ -53,7 +58,7 @@ class IngredientControllerTest {
     @Test
     fun `findById should return an ingredient and status 200`() {
         val ingredient = ingredient()
-        every { ingredientService.findById(any()) } returns ingredient
+        every { ingredientQueries.findById(any()) } returns ingredient
 
         mockMvc.perform(get("/ingredient/1"))
             .andExpectAll(
@@ -66,7 +71,7 @@ class IngredientControllerTest {
     @Test
     fun `findById should return status 404 when ingredient is not found`() {
         val errorMessage = "Ingredient not found for id : 1"
-        every { ingredientService.findById(any()) } throws IngredientNotFoundException(errorMessage)
+        every { ingredientQueries.findById(any()) } throws IngredientNotFoundException(errorMessage)
 
         mockMvc.perform(get("/ingredient/1"))
             .andExpectAll(

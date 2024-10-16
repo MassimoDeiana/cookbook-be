@@ -4,10 +4,13 @@ import assertk.assertThat
 import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotEmpty
+import com.massimo.cookbookbe.command.ingredient.CreateIngredientCommand
+import com.massimo.cookbookbe.command.ingredient.UpdateIngredientInfoCommand
 import com.massimo.cookbookbe.domain.Category
 import com.massimo.cookbookbe.domain.Ingredient
 import com.massimo.cookbookbe.domain.Unit
 import com.massimo.cookbookbe.entity.Ingredients
+import com.massimo.cookbookbe.queries.ingredient.IngredientFilter
 import org.instancio.Instancio
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -50,7 +53,7 @@ class IngredientRepositoryTest() {
         transaction {
             Ingredients.deleteAll()
         }
-        val ingredients = ingredientRepository.findAll()
+        val ingredients = ingredientRepository.findAll(IngredientFilter())
         assertThat(ingredients).isEmpty()
     }
 
@@ -59,14 +62,13 @@ class IngredientRepositoryTest() {
         transaction {
             Ingredients.deleteAll()
         }
-        val ingredient = ingredient()
-        val id = ingredientRepository.save(ingredient)
+        val id = ingredientRepository.save(createIngredient())
         assertThat(id).isEqualTo(2)
     }
 
     @Test
     fun `findAll should return list of ingredients`() {
-        val ingredients = ingredientRepository.findAll()
+        val ingredients = ingredientRepository.findAll(IngredientFilter())
         assertThat(ingredients).isNotEmpty()
     }
 
@@ -79,22 +81,24 @@ class IngredientRepositoryTest() {
     @Test
     fun `delete should remove ingredient from db`() {
         ingredientRepository.delete(INGREDIENT_ID)
-        val ingredients = ingredientRepository.findAll()
+        val ingredients = ingredientRepository.findAll(IngredientFilter())
         assertThat(ingredients).isEmpty()
     }
 
     @Test
     fun `update should update ingredient in db`() {
-        val ingredient = Ingredient(INGREDIENT_ID, "Updated Ingredient", "Updated Description", Unit.GRAM, Category.MEAT)
-        val isIngredientUpdated = ingredientRepository.update(ingredient)
+        val isIngredientUpdated = ingredientRepository.update(INGREDIENT_ID, updateIngredient())
         assertThat(isIngredientUpdated).isEqualTo(true)
     }
 
     private fun addIngredientIntoDb() {
-        val ingredient = ingredient()
-        ingredientRepository.save(ingredient)
+        ingredientRepository.save(createIngredient())
     }
 
     fun ingredient(): Ingredient = Instancio.of(Ingredient::class.java).create()
+
+    fun createIngredient() : CreateIngredientCommand = Instancio.of(CreateIngredientCommand::class.java).create()
+
+    fun updateIngredient() : UpdateIngredientInfoCommand = Instancio.of(UpdateIngredientInfoCommand::class.java).create()
 
 }
