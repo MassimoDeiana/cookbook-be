@@ -5,6 +5,7 @@ import com.massimo.cookbookbe.command.ingredient.IngredientCommands
 import com.massimo.cookbookbe.command.ingredient.UpdateIngredientInfoCommand
 import com.massimo.cookbookbe.queries.ingredient.IngredientFilter
 import com.massimo.cookbookbe.queries.ingredient.IngredientQueries
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
@@ -20,7 +21,8 @@ class IngredientController(
 ) {
 
     @GetMapping("/ingredients")
-    fun findAll(@ModelAttribute ingredientFilter: IngredientFilter) = ingredientQueries.findAll(ingredientFilter)
+    fun findAll(@ModelAttribute ingredientFilter: IngredientFilter) =
+        ingredientQueries.findAll(ingredientFilter)
 
     @GetMapping("/ingredient/{id}")
     fun findById(@PathVariable id: Long) =
@@ -34,5 +36,8 @@ class IngredientController(
     fun updateIngredient(@PathVariable id: Long, @RequestBody updateIngredientInfoCommand: UpdateIngredientInfoCommand) =
         ingredientCommands.handle(id, updateIngredientInfoCommand)
 
+    @DeleteMapping("/ingredient/{id}")
+    fun deleteIngredient(@PathVariable id: Long) =
+        ingredientCommands.handle(id)
 
 }

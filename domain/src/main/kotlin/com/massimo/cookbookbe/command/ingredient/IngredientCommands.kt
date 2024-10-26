@@ -14,4 +14,7 @@ class IngredientCommands (
     fun handle(id: Long, updateIngredientInfoCommand: UpdateIngredientInfoCommand) =
         ingredientRepository.update(id, updateIngredientInfoCommand)
 
+    fun handle(id: Long) =
+        ingredientRepository.delete(id)
+
 }
