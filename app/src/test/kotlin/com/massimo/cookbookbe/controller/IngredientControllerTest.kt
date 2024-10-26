@@ -42,7 +42,7 @@ class IngredientControllerTest {
     fun `findAll should return all ingredients`() {
         val firstIngredient = ingredient()
         val secondIngredient = ingredient()
-        every { ingredientQueries.findAll(IngredientFilter()) } returns listOf(firstIngredient, secondIngredient)
+        every { ingredientQueries.findAll( IngredientFilter() )} returns listOf(firstIngredient, secondIngredient)
 
         mockMvc.perform(get("/ingredients"))
             .andExpectAll(
@@ -52,11 +52,10 @@ class IngredientControllerTest {
                 jsonPath("$[0].name").value(firstIngredient.name),
                 jsonPath("$[1].name").value(secondIngredient.name)
             )
-
     }
 
     @Test
-    fun `findById should return an ingredient and status 200`() {
+    fun `findById should return an ingredient`() {
         val ingredient = ingredient()
         every { ingredientQueries.findById(any()) } returns ingredient
 
@@ -71,7 +70,7 @@ class IngredientControllerTest {
     @Test
     fun `findById should return status 404 when ingredient is not found`() {
         val errorMessage = "Ingredient not found for id : 1"
-        every { ingredientQueries.findById(any()) } throws IngredientNotFoundException(errorMessage)
+        every { ingredientQueries.findById(any()) } throws IngredientNotFoundException(1)
 
         mockMvc.perform(get("/ingredient/1"))
             .andExpectAll(

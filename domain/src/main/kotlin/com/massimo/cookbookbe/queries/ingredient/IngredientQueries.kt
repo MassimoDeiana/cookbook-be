@@ -9,10 +9,12 @@ class IngredientQueries(
     private val ingredientRepository: IngredientRepository
 ){
 
-    fun findAll(ingredientFilter : IngredientFilter) = ingredientRepository.findAll(ingredientFilter)
+    fun findAll(ingredientFilter : IngredientFilter) =
+        ingredientRepository.findAll(ingredientFilter)
 
-    fun findById(id: Long) = ingredientRepository.findById(id)
-        ?: throw IngredientNotFoundException("Ingredient not found for id : $id")
+    fun findById(id: Long) =
+        ingredientRepository.findById(id)
+        ?: throw IngredientNotFoundException(id)
 
 
 }
