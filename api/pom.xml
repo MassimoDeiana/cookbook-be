@@ -109,6 +109,19 @@
             <groupId>org.instancio</groupId>
             <artifactId>instancio-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.massimo</groupId>
+            <artifactId>ai</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.massimo</groupId>
+            <artifactId>ai</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
+
 
 </project>

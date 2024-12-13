@@ -19,6 +19,7 @@
         <module>api</module>
         <module>Infrastructure</module>
         <module>domain</module>
+        <module>ai</module>
     </modules>
 
     <properties>
@@ -40,6 +41,7 @@
                 <version>0.28.1</version>
                 <scope>test</scope>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 

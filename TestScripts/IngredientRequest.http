@@ -3,7 +3,7 @@ GET http://localhost:8080/ingredients?category=FRUIT
 Accept: application/json
 
 ### Get ingredient by ID
-GET http://localhost:8080/ingredient/2
+GET http://localhost:8080/ingredient/1
 Accept: application/json
 
 ### Create a new ingredient

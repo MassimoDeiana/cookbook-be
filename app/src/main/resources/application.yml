@@ -1,4 +1,7 @@
 spring:
+  mvc:
+    async:
+      request-timeout: 300000
   datasource:
     url: jdbc:postgresql://localhost:5432/cookbook
     username: postgres
@@ -7,3 +10,8 @@ spring:
   exposed:
     generate-ddl: true
     show-sql: true
+
+  ai:
+    ollama:
+      chat:
+        model: llava

@@ -1,5 +1,6 @@
 package com.massimo.cookbookbe.command.ingredient
 
+import com.massimo.cookbookbe.exceptions.IngredientNotFoundException
 import com.massimo.cookbookbe.ports.secondary.IngredientRepository
 import org.springframework.stereotype.Service
 
@@ -14,7 +15,9 @@ class IngredientCommands (
     fun handle(id: Long, updateIngredientInfoCommand: UpdateIngredientInfoCommand) =
         ingredientRepository.update(id, updateIngredientInfoCommand)
 
-    fun handle(id: Long) =
-        ingredientRepository.delete(id)
+    fun handle(id: Long) {
+        val isDeleted = ingredientRepository.delete(id)
+        if(!isDeleted) throw IngredientNotFoundException(id)
+    }
 
 }
