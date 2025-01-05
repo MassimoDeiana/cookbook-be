@@ -15,3 +15,8 @@ spring:
     ollama:
       chat:
         model: llava
+
+  
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
