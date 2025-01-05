@@ -7,6 +7,38 @@ servers:
     - url: http://localhost:8080
       description: Generated server url
 paths:
+    /ingredient:
+        post:
+            tags:
+                - ingredient
+            operationId: createIngredient
+            requestBody:
+                $ref: '#/components/requestBodies/CreateIngredientCommand'
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/IngredientId'
+        get:
+            tags:
+                - ingredient
+            operationId: findAll
+            parameters:
+                - $ref: '#/components/parameters/IngredientName'
+                - $ref: '#/components/parameters/IngredientCategory'
+                - $ref: '#/components/parameters/Order'
+                - $ref: '#/components/parameters/OrderBy'
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Ingredient'
     /ingredient/{id}:
         get:
             tags:
@@ -15,8 +47,8 @@ paths:
             parameters:
                 - $ref: '#/components/parameters/IngredientId'
             responses:
-                "200":
-                    description: ok
+                "201":
+                    description: Created
                     content:
                         application/json:
                             schema:
@@ -33,66 +65,19 @@ paths:
                 '200':
                     description: OK
                     content:
-                        '*/*':
+                        application/json:
                             schema:
-                                type: integer
-                                format: int64
+                                $ref: '#/components/schemas/IngredientId'
         delete:
             tags:
                 - ingredient
             operationId: deleteIngredient
             parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                      type: integer
-                      format: int64
+                - $ref: '#/components/parameters/IngredientId'
             responses:
-                '200':
-                    description: OK
-                    content:
-                        '*/*':
-                            schema:
-                                $ref: '#/components/schemas/Unit'
-    /ingredient:
-        post:
-            tags:
-                - ingredient
-            operationId: createIngredient
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CreateIngredientCommand'
-                required: true
-            responses:
-                '200':
-                    description: OK
-                    content:
-                        '*/*':
-                            schema:
-                                type: integer
-                                format: int64
-    /ingredients:
-        get:
-            tags:
-                - ingredient
-            operationId: findAll
-            parameters:
-                - $ref: '#/components/parameters/IngredientName'
-                - $ref: '#/components/parameters/IngredientCategory'
-                - $ref: '#/components/parameters/Order'
-                - $ref: '#/components/parameters/OrderBy'
-            responses:
-                '200':
-                    description: OK
-                    content:
-                        '*/*':
-                            schema:
-                                type: array
-                                items:
-                                    $ref: '#/components/schemas/Ingredient'
+                '204':
+                    $ref: '#/components/responses/204'
+
     /database/refresh:
         get:
             tags:
@@ -221,8 +206,18 @@ components:
                 application/json:
                     schema:
                         $ref: '#/components/schemas/UpdateIngredientInfoCommand'
+        CreateIngredientCommand:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/CreateIngredientCommand'
     responses:
         '200':
-            description: ok
+            description: Ok
+        '201':
+            description: Created
+        '204':
+            description: No content
         '400':
-            description: 'Bad request'
+            description: Bad request
