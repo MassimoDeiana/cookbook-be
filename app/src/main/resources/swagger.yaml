@@ -1,0 +1,228 @@
+openapi: 3.0.1
+info:
+    title: Cookbook API
+    description: Documentation Cookbook API v1.0
+    version: '1.0'
+servers:
+    - url: http://localhost:8080
+      description: Generated server url
+paths:
+    /ingredient/{id}:
+        get:
+            tags:
+                - ingredient
+            operationId: findById
+            parameters:
+                - $ref: '#/components/parameters/IngredientId'
+            responses:
+                "200":
+                    description: ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Ingredient'
+        put:
+            tags:
+                - ingredient
+            operationId: updateIngredient
+            parameters:
+                - $ref: '#/components/parameters/IngredientId'
+            requestBody:
+                $ref: '#/components/requestBodies/UpdateIngredientInfoCommand'
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        '*/*':
+                            schema:
+                                type: integer
+                                format: int64
+        delete:
+            tags:
+                - ingredient
+            operationId: deleteIngredient
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Unit'
+    /ingredient:
+        post:
+            tags:
+                - ingredient
+            operationId: createIngredient
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateIngredientCommand'
+                required: true
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        '*/*':
+                            schema:
+                                type: integer
+                                format: int64
+    /ingredients:
+        get:
+            tags:
+                - ingredient
+            operationId: findAll
+            parameters:
+                - $ref: '#/components/parameters/IngredientName'
+                - $ref: '#/components/parameters/IngredientCategory'
+                - $ref: '#/components/parameters/Order'
+                - $ref: '#/components/parameters/OrderBy'
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        '*/*':
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Ingredient'
+    /database/refresh:
+        get:
+            tags:
+                - database-controller
+            operationId: refreshDatabase
+            responses:
+                '200':
+                    description: OK
+components:
+    schemas:
+        UpdateIngredientInfoCommand:
+            type: object
+            properties:
+                name:
+                    $ref: '#/components/schemas/IngredientName'
+                description:
+                    $ref: '#/components/schemas/IngredientDescription'
+                unit:
+                    $ref: '#/components/schemas/Unit'
+                category:
+                    $ref: '#/components/schemas/Category'
+        CreateIngredientCommand:
+            type: object
+            properties:
+                name:
+                    $ref: '#/components/schemas/IngredientName'
+                description:
+                    $ref: '#/components/schemas/IngredientDescription'
+                unit:
+                    $ref: '#/components/schemas/Unit'
+                category:
+                    $ref: '#/components/schemas/Category'
+        Ingredient:
+            type: object
+            properties:
+                id:
+                    $ref: '#/components/schemas/IngredientId'
+                name:
+                    $ref: '#/components/schemas/IngredientName'
+                description:
+                    $ref: '#/components/schemas/IngredientDescription'
+                unit:
+                    $ref: '#/components/schemas/Unit'
+                category:
+                    $ref: '#/components/schemas/Category'
+                quantityInStock:
+                    $ref: '#/components/schemas/QuantityInStock'
+        IngredientId:
+            type: integer
+            example: 1
+        IngredientName:
+            type: string
+            example: "Tomate"
+        IngredientDescription:
+            type: string
+            example: "Legume rouge"
+        QuantityInStock:
+            type: integer
+            example: 12
+        Unit:
+            type: string
+            example: GRAM
+            enum:
+                - GRAM
+                - LITER
+                - PIECE
+                - TEASPOON
+                - TABLESPOON
+                - CUP
+                - SLICE
+        Category:
+            type: string
+            example: MEAT
+            enum:
+                - MEAT
+                - VEGETABLE
+                - FRUIT
+                - DAIRY
+                - GRAIN
+                - SPICE
+                - SWEET
+                - BEVERAGE
+    parameters:
+        IngredientId:
+            name: id
+            in: path
+            required: true
+            schema:
+                type: integer
+        IngredientName:
+            name: name
+            in: query
+            required: false
+            schema:
+                $ref: '#/components/schemas/IngredientName'
+        IngredientCategory:
+            name: category
+            in: query
+            required: false
+            schema:
+                $ref: '#/components/schemas/Category'
+        Order:
+            name: order
+            in: query
+            required: false
+            schema:
+                type: string
+                enum:
+                    - asc
+                    - desc
+        OrderBy:
+            name: orderBy
+            in: query
+            required: false
+            schema:
+                type: string
+                enum:
+                    - name
+                    - stock
+                    - category
+                    - unit
+    requestBodies:
+        UpdateIngredientInfoCommand:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/UpdateIngredientInfoCommand'
+    responses:
+        '200':
+            description: ok
+        '400':
+            description: 'Bad request'
