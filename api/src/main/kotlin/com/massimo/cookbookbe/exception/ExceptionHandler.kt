@@ -24,6 +24,20 @@ class ExceptionHandler {
         )
     }
 
+    @ExceptionHandler(RuntimeException::class)
+    fun handleRuntimeException(ex: RuntimeException, request: WebRequest) : ResponseEntity<ErrorDetails> {
+        val status = HttpStatus.INTERNAL_SERVER_ERROR
+        return ResponseEntity(
+            ErrorDetails(
+                status = status,
+                statusCode = status.value(),
+                message = ex.message!!,
+                path = request.getDescription(false)
+            ),
+            status
+        )
+    }
+
 }
 
 data class ErrorDetails(
