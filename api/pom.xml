@@ -40,8 +40,7 @@
                         </goals>
                         <configuration>
                             <sourceDirs>src/main/kotlin</sourceDirs>
-                            <sourceDirs>target/generated-sources/openapi/src/main/kotlin/com/massimo/cookbookbe/api</sourceDirs>
-                            <sourceDirs>target/generated-sources/openapi/src/main/kotlin/com/massimo/cookbookbe/model</sourceDirs>
+                            <sourceDirs>target/generated-sources/openapi/src/main/kotlin</sourceDirs>
                         </configuration>
                     </execution>
                     <execution>
@@ -113,24 +112,20 @@
     </build>
 
     <dependencies>
+        <!-- MODULES -->
+
+        <!-- TEST -->
+
 
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test-junit5</artifactId>
-            <version>2.0.0</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.10.0</version>
-            <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-            <version>2.0.0</version>
-        </dependency>
+
         <dependency>
             <groupId>com.massimo</groupId>
             <artifactId>domain</artifactId>
@@ -148,24 +143,10 @@
         <dependency>
             <groupId>com.ninja-squad</groupId>
             <artifactId>springmockk</artifactId>
-            <version>4.0.2</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.instancio</groupId>
             <artifactId>instancio-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.massimo</groupId>
-            <artifactId>ai</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.massimo</groupId>
-            <artifactId>ai</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
