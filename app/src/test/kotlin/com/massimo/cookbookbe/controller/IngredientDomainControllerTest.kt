@@ -1,7 +1,7 @@
 package com.massimo.cookbookbe.controller
 
 import com.massimo.cookbookbe.command.ingredient.IngredientCommands
-import com.massimo.cookbookbe.domain.Ingredient
+import com.massimo.cookbookbe.domain.IngredientDomain
 import com.massimo.cookbookbe.exception.ExceptionHandler
 import com.massimo.cookbookbe.exceptions.IngredientNotFoundException
 import com.massimo.cookbookbe.queries.ingredient.IngredientFilter
@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import kotlin.test.Test
 
 @SpringBootTest
-class IngredientControllerTest {
+class IngredientDomainControllerTest {
 
     @MockkBean
     private lateinit var ingredientQueries: IngredientQueries
@@ -82,8 +82,8 @@ class IngredientControllerTest {
     }
 
 
-    private fun ingredient() : Ingredient {
-        return Instancio.of(Ingredient::class.java)
+    private fun ingredient() : IngredientDomain {
+        return Instancio.of(IngredientDomain::class.java)
             .set(field("id"), 1)
             .create()
     }

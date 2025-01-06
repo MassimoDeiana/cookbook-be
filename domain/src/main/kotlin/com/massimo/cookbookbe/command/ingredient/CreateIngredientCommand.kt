@@ -1,11 +1,11 @@
 package com.massimo.cookbookbe.command.ingredient
 
-import com.massimo.cookbookbe.domain.Category
-import com.massimo.cookbookbe.domain.Unit
+import com.massimo.cookbookbe.domain.CategoryDomain
+import com.massimo.cookbookbe.domain.UnitDomain
 
 data class CreateIngredientCommand(
     val name: String,
     val description: String,
-    val unit: Unit,
-    val category: Category
+    val unit: UnitDomain,
+    val category: CategoryDomain
 )

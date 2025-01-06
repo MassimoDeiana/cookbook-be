@@ -1,10 +1,10 @@
 package com.massimo.cookbookbe.domain
 
-data class Ingredient(
+data class IngredientDomain(
     val id: Long,
     val name: String,
     val description: String,
-    val unit: Unit,
-    val category: Category,
+    val unit: UnitDomain,
+    val category: CategoryDomain,
     val quantityInStock: Int
 )

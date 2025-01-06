@@ -6,9 +6,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNotEmpty
 import com.massimo.cookbookbe.command.ingredient.CreateIngredientCommand
 import com.massimo.cookbookbe.command.ingredient.UpdateIngredientInfoCommand
-import com.massimo.cookbookbe.domain.Category
-import com.massimo.cookbookbe.domain.Ingredient
-import com.massimo.cookbookbe.domain.Unit
+import com.massimo.cookbookbe.domain.IngredientDomain
 import com.massimo.cookbookbe.entity.Ingredients
 import com.massimo.cookbookbe.queries.ingredient.IngredientFilter
 import org.instancio.Instancio
@@ -26,7 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest
 const val INGREDIENT_ID = 1L
 
 @SpringBootTest(classes = [IngredientRepository::class])
-class IngredientRepositoryTest() {
+class IngredientDomainRepositoryTest() {
 
     @Autowired
     lateinit var ingredientRepository: IngredientRepository
@@ -95,7 +93,7 @@ class IngredientRepositoryTest() {
         ingredientRepository.save(createIngredient())
     }
 
-    fun ingredient(): Ingredient = Instancio.of(Ingredient::class.java).create()
+    fun ingredient(): IngredientDomain = Instancio.of(IngredientDomain::class.java).create()
 
     fun createIngredient() : CreateIngredientCommand = Instancio.of(CreateIngredientCommand::class.java).create()
 

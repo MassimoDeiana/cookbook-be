@@ -1,6 +1,6 @@
 package com.massimo.cookbookbe.domain
 
-enum class Unit {
+enum class UnitDomain {
     GRAM,
     LITER,
     PIECE,

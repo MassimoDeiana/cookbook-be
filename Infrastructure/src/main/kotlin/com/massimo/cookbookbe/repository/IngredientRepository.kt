@@ -2,9 +2,9 @@ package com.massimo.cookbookbe.repository
 
 import com.massimo.cookbookbe.command.ingredient.CreateIngredientCommand
 import com.massimo.cookbookbe.command.ingredient.UpdateIngredientInfoCommand
-import com.massimo.cookbookbe.domain.Category
-import com.massimo.cookbookbe.domain.Ingredient
-import com.massimo.cookbookbe.domain.Unit
+import com.massimo.cookbookbe.domain.CategoryDomain
+import com.massimo.cookbookbe.domain.IngredientDomain
+import com.massimo.cookbookbe.domain.UnitDomain
 import com.massimo.cookbookbe.entity.Categories
 import com.massimo.cookbookbe.entity.Ingredients
 import com.massimo.cookbookbe.entity.Units
@@ -23,7 +23,7 @@ class IngredientRepository : IngredientRepository{
         Ingredients.selectAll()
             .apply {
                 ingredientFilter.name?.let { andWhere { Ingredients.name like "%$it%" } }
-                ingredientFilter.category?.let { andWhere { Ingredients.category eq Categories.valueOf(it) } }
+                ingredientFilter.category?.let { andWhere { Ingredients.category eq Categories.valueOf(it.name) } }
                 ingredientFilter.orderBy?.let { orderByColumn ->
                     val column = Ingredients.columns.firstOrNull { it.name == orderByColumn }
                     column?.let { orderBy(it, order) }
@@ -64,13 +64,13 @@ class IngredientRepository : IngredientRepository{
     }
 
 
-    private fun mapToDomain(resultRow: ResultRow) : Ingredient {
-        return Ingredient(
+    private fun mapToDomain(resultRow: ResultRow) : IngredientDomain {
+        return IngredientDomain(
             id = resultRow[Ingredients.id],
             name = resultRow[Ingredients.name],
             description = resultRow[Ingredients.description],
-            unit = Unit.valueOf(resultRow[Ingredients.unit].name),
-            category = Category.valueOf(resultRow[Ingredients.category].name),
+            unit = UnitDomain.valueOf(resultRow[Ingredients.unit].name),
+            category = CategoryDomain.valueOf(resultRow[Ingredients.category].name),
             quantityInStock = resultRow[Ingredients.quantityInStock]
         )
     }

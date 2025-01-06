@@ -38,6 +38,11 @@
                         <goals>
                             <goal>compile</goal>
                         </goals>
+                        <configuration>
+                            <sourceDirs>src/main/kotlin</sourceDirs>
+                            <sourceDirs>target/generated-sources/openapi/src/main/kotlin/com/massimo/cookbookbe/api</sourceDirs>
+                            <sourceDirs>target/generated-sources/openapi/src/main/kotlin/com/massimo/cookbookbe/model</sourceDirs>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>test-compile</id>
@@ -45,6 +50,46 @@
                         <goals>
                             <goal>test-compile</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>5.1.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.github.jknack</groupId>
+                        <artifactId>handlebars</artifactId>
+                        <version>4.4.0</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>
+                                ${project.basedir}/src/main/resources/swagger.yaml
+                            </inputSpec>
+                            <generatorName>kotlin-spring</generatorName>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <configOptions>
+                                <basePackage>com.massimo.cookbookbe</basePackage>
+                                <apiPackage>com.massimo.cookbookbe.api</apiPackage>
+                                <modelPackage>com.massimo.cookbookbe.model</modelPackage>
+                                <configPackage>com.massimo.cookbookbe.config</configPackage>
+                                <delegatePattern>false</delegatePattern>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <exceptionHandler>false</exceptionHandler>
+                                <gradleBuildFile>false</gradleBuildFile>
+                                <useSwaggerUI>false</useSwaggerUI>
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                                <enumPropertyNaming>UPPERCASE</enumPropertyNaming>
+                            </configOptions>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -68,6 +113,7 @@
     </build>
 
     <dependencies>
+
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test-junit5</artifactId>
@@ -126,6 +172,12 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.6.0</version> <!-- Use the latest version -->
         </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+
     </dependencies>
 
 
