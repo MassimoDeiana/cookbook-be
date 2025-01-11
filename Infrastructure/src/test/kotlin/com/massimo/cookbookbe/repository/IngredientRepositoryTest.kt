@@ -22,7 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest
 const val INGREDIENT_ID = 1L
 
 @SpringBootTest(classes = [IngredientRepository::class])
-class IngredientDomainRepositoryTest() {
+class IngredientRepositoryTest {
 
     @Autowired
     lateinit var ingredientRepository: IngredientRepository

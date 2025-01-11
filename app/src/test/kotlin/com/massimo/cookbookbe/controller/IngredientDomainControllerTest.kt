@@ -4,9 +4,11 @@ import com.massimo.cookbookbe.domain.IngredientDomain
 import com.massimo.cookbookbe.exception.ExceptionHandler
 import com.massimo.cookbookbe.exceptions.IngredientNotFoundException
 import com.massimo.cookbookbe.domain.IngredientFilter
+import com.massimo.cookbookbe.mapper.IngredientMapper
 import com.massimo.cookbookbe.ports.primary.IngredientService
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
 import org.instancio.Instancio
 import org.instancio.Select.field
 import org.junit.jupiter.api.BeforeEach
@@ -24,12 +26,15 @@ class IngredientDomainControllerTest {
     @MockkBean
     private lateinit var service: IngredientService
 
+    @InjectMockKs
+    private lateinit var mapper: IngredientMapper
+
     private lateinit var mockMvc: MockMvc
 
     @BeforeEach
     fun setup(){
         mockMvc = MockMvcBuilders
-            .standaloneSetup(IngredientController(service))
+            .standaloneSetup(IngredientController(service, mapper))
             .setControllerAdvice(ExceptionHandler())
             .build()
     }
@@ -80,7 +85,7 @@ class IngredientDomainControllerTest {
 
     private fun ingredient() : IngredientDomain {
         return Instancio.of(IngredientDomain::class.java)
-            .set(field("id"), 1)
+            .set(field("id"), 1L)
             .create()
     }
 

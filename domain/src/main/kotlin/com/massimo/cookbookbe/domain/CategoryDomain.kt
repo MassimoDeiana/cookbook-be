@@ -8,5 +8,5 @@ enum class CategoryDomain {
     GRAIN,
     SPICE,
     SWEET,
-    BEVERAGE
+    BEVERAGE,
 }

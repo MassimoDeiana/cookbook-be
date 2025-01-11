@@ -3,9 +3,8 @@ package com.massimo.cookbookbe.mapper
 import com.massimo.cookbookbe.domain.CategoryDomain
 import com.massimo.cookbookbe.domain.IngredientDomain
 import com.massimo.cookbookbe.domain.UnitDomain
-import com.massimo.cookbookbe.model.CreateIngredientCommand
-import com.massimo.cookbookbe.model.Ingredient
-import com.massimo.cookbookbe.model.UpdateIngredientInfoCommand
+import com.massimo.cookbookbe.model.*
+import com.massimo.cookbookbe.model.Unit
 import org.springframework.stereotype.Component
 
 @Component
@@ -21,19 +20,31 @@ class IngredientMapper {
     )
 
     fun map(ingredientDomain: IngredientDomain) = Ingredient(
-
+        id = ingredientDomain.id,
+        name = ingredientDomain.name,
+        description = ingredientDomain.description,
+        unit = Unit.valueOf(ingredientDomain.unit.name),
+        category = Category.valueOf(ingredientDomain.category.name),
+        quantityInStock = ingredientDomain.quantityInStock
     )
 
-//    fun map(ingredientDomain: IngredientDomain): Ingredient
-//
-//    fun map(createIngredientCommand: CreateIngredientCommand): com.massimo.cookbookbe.command.ingredient.CreateIngredientCommand
-//
-//    fun map(createIngredientCommand: com.massimo.cookbookbe.command.ingredient.CreateIngredientCommand): CreateIngredientCommand
-//
-//    fun map(updateIngredientInfoCommand: UpdateIngredientInfoCommand): com.massimo.cookbookbe.command.ingredient.UpdateIngredientInfoCommand
-//
-//    fun map(updateIngredientInfoCommand: com.massimo.cookbookbe.command.ingredient.UpdateIngredientInfoCommand): UpdateIngredientInfoCommand
-//
+    fun map(createIngredientCommand: CreateIngredientCommand) = IngredientDomain(
+        name = createIngredientCommand.name,
+        description = createIngredientCommand.description,
+        unit = UnitDomain.valueOf(createIngredientCommand.unit.value),
+        category = CategoryDomain.valueOf(createIngredientCommand.category.value),
+        quantityInStock = 0
+    )
+
+    fun map(updateIngredientInfoCommand: UpdateIngredientInfoCommand) = IngredientDomain(
+        name = updateIngredientInfoCommand.name!!,
+        description = updateIngredientInfoCommand.description!!,
+        unit = UnitDomain.valueOf(updateIngredientInfoCommand.unit!!.value),
+        category = CategoryDomain.valueOf(updateIngredientInfoCommand.category!!.value),
+        quantityInStock = updateIngredientInfoCommand.quantityInStock!!
+    )
+
+
 
 
 }

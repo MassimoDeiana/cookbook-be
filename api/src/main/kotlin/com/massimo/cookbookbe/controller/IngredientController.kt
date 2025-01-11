@@ -4,6 +4,7 @@ import com.massimo.cookbookbe.api.IngredientApi
 import com.massimo.cookbookbe.domain.CategoryDomain
 import com.massimo.cookbookbe.mapper.IngredientMapper
 import com.massimo.cookbookbe.model.Category
+import com.massimo.cookbookbe.model.CreateIngredientCommand
 import com.massimo.cookbookbe.model.Ingredient
 import com.massimo.cookbookbe.ports.primary.IngredientService
 import org.springframework.http.HttpStatus
@@ -14,8 +15,8 @@ import javax.validation.Valid
 @RestController
 @CrossOrigin(origins = ["http://localhost:8081"])
 class IngredientController (
-    private val ingredientService: IngredientService,
-    private val ingredientMapper: IngredientMapper
+    private val service: IngredientService,
+    private val mapper: IngredientMapper
 ) : IngredientApi {
 
     @GetMapping("/ingredients")
@@ -28,53 +29,53 @@ class IngredientController (
 
         val ingredientFilter = com.massimo.cookbookbe.domain.IngredientFilter(
             name = name,
-            category = CategoryDomain.valueOf(category?.name ?: ""),
+            category = category?.let { CategoryDomain.valueOf(it.name) },
             order = order,
             orderBy = orderBy
         )
 
-        val ingredients = ingredientService.findAll(ingredientFilter)
-        val response = ingredients.map { ingredientMapper.map(it) }
+        val ingredients = service.findAll(ingredientFilter)
+        val response = ingredients.map { mapper.map(it) }
         return ResponseEntity.ok(response)
     }
 
     @GetMapping("/ingredient/{id}")
     override fun findById(
-        @PathVariable id: Int
+        @PathVariable id: Long
     ): ResponseEntity<Ingredient> {
 
-        val ingredientDomain = ingredientService.findById(id)
-        val ingredient = ingredientMapper.map(ingredientDomain)
+        val ingredientDomain = service.findById(id)
+        val ingredient = mapper.map(ingredientDomain)
         return ResponseEntity.ok(ingredient)
     }
 
     @PostMapping("/ingredient")
     override fun createIngredient(
-        @Valid @RequestBody createIngredientCommand: com.massimo.cookbookbe.model.CreateIngredientCommand
-    ): ResponseEntity<Int> {
+        @Valid @RequestBody createIngredientCommand: CreateIngredientCommand
+    ): ResponseEntity<Long> {
 
-        val ingredientToCreate = ingredientMapper.map(createIngredientCommand)
-        val ingredientId = ingredientService.create(ingredientToCreate)
+        val ingredientToCreate = mapper.map(createIngredientCommand)
+        val ingredientId = service.create(ingredientToCreate)
         return ResponseEntity(ingredientId, HttpStatus.CREATED)
     }
 
     @PutMapping("/ingredient/{id}")
     override fun updateIngredient(
-        @PathVariable id: Int,
+        @PathVariable id: Long,
         @Valid @RequestBody updateIngredientInfoCommand: com.massimo.cookbookbe.model.UpdateIngredientInfoCommand
-    ): ResponseEntity<Int> {
+    ): ResponseEntity<Long> {
 
-        val ingredientToUpdate = ingredientMapper.map(updateIngredientInfoCommand)
-        ingredientService.update(id, ingredientToUpdate)
+        val ingredientToUpdate = mapper.map(updateIngredientInfoCommand)
+        service.update(id, ingredientToUpdate)
         return ResponseEntity.ok().build()
     }
 
     @DeleteMapping("/ingredient/{id}")
     override fun deleteIngredient(
-        @PathVariable id: Int
+        @PathVariable id: Long
     ): ResponseEntity<Unit> {
 
-        ingredientService.delete(id)
+        service.delete(id)
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 
