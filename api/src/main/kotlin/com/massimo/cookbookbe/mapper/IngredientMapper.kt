@@ -6,7 +6,9 @@ import com.massimo.cookbookbe.domain.UnitDomain
 import com.massimo.cookbookbe.model.CreateIngredientCommand
 import com.massimo.cookbookbe.model.Ingredient
 import com.massimo.cookbookbe.model.UpdateIngredientInfoCommand
+import org.springframework.stereotype.Component
 
+@Component
 class IngredientMapper {
 
     fun map(ingredient: Ingredient) = IngredientDomain(

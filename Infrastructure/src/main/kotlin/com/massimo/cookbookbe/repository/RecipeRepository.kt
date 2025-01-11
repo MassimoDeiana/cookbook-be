@@ -7,6 +7,8 @@ import com.massimo.cookbookbe.domain.UnitDomain
 import com.massimo.cookbookbe.entity.*
 import com.massimo.cookbookbe.ports.secondary.RecipeRepository
 import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.leftJoin
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.stereotype.Repository
@@ -15,10 +17,10 @@ import org.springframework.stereotype.Repository
 class RecipeRepository : RecipeRepository {
 
     override fun findById(recipeId: Long) = transaction {
-        Recipe.leftJoin(RecipeTags)
-            .leftJoin(Tags)
-            .leftJoin(RecipeIngredients)
-            .leftJoin(Ingredients)
+        Recipe.leftJoin(RecipeTags) { Recipe.id eq RecipeTags.recipeId }
+            .leftJoin(Tags) { RecipeTags.tagId eq Tags.id }
+            .leftJoin(RecipeIngredients) { Recipe.id eq RecipeIngredients.recipeId }
+            .leftJoin(Ingredients) { RecipeIngredients.ingredientId eq Ingredients.id }
             .selectAll().where { Recipe.id eq recipeId }
             .map { mapToDomain(it) }
             .firstOrNull()

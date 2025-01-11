@@ -1,7 +1,5 @@
 package com.massimo.cookbookbe.repository
 
-import com.massimo.cookbookbe.command.ingredient.CreateIngredientCommand
-import com.massimo.cookbookbe.command.ingredient.UpdateIngredientInfoCommand
 import com.massimo.cookbookbe.domain.CategoryDomain
 import com.massimo.cookbookbe.domain.IngredientDomain
 import com.massimo.cookbookbe.domain.UnitDomain
@@ -9,7 +7,7 @@ import com.massimo.cookbookbe.entity.Categories
 import com.massimo.cookbookbe.entity.Ingredients
 import com.massimo.cookbookbe.entity.Units
 import com.massimo.cookbookbe.ports.secondary.IngredientRepository
-import com.massimo.cookbookbe.queries.ingredient.IngredientFilter
+import com.massimo.cookbookbe.domain.IngredientFilter
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -18,13 +16,13 @@ import org.springframework.stereotype.Repository
 @Repository
 class IngredientRepository : IngredientRepository{
 
-    override fun findAll(ingredientFilter: IngredientFilter) = transaction {
-        val order = if (ingredientFilter.order == "asc") SortOrder.ASC else SortOrder.DESC
+    override fun findAll(filter: IngredientFilter) = transaction {
+        val order = if (filter.order == "asc") SortOrder.ASC else SortOrder.DESC
         Ingredients.selectAll()
             .apply {
-                ingredientFilter.name?.let { andWhere { Ingredients.name like "%$it%" } }
-                ingredientFilter.category?.let { andWhere { Ingredients.category eq Categories.valueOf(it.name) } }
-                ingredientFilter.orderBy?.let { orderByColumn ->
+                filter.name?.let { andWhere { Ingredients.name like "%$it%" } }
+                filter.category?.let { andWhere { Ingredients.category eq Categories.valueOf(it.name) } }
+                filter.orderBy?.let { orderByColumn ->
                     val column = Ingredients.columns.firstOrNull { it.name == orderByColumn }
                     column?.let { orderBy(it, order) }
                 }
@@ -32,33 +30,33 @@ class IngredientRepository : IngredientRepository{
             .map { mapToDomain(it) }
     }
 
-    override fun save(createIngredientCommand: CreateIngredientCommand) = transaction {
+    override fun save(ingredient: IngredientDomain) = transaction {
         Ingredients.insert {
-            it[name] = createIngredientCommand.name
-            it[description] = createIngredientCommand.description
-            it[unit] = Units.valueOf(createIngredientCommand.unit.name)
-            it[category] = Categories.valueOf(createIngredientCommand.category.name)
+            it[name] = ingredient.name
+            it[description] = ingredient.description
+            it[unit] = Units.valueOf(ingredient.unit.name)
+            it[category] = Categories.valueOf(ingredient.category.name)
         } get Ingredients.id
     }
 
-    override fun findById(ingredientId: Long) = transaction {
+    override fun findById(id: Long) = transaction {
         Ingredients.selectAll()
-            .where { Ingredients.id eq ingredientId }
+            .where { Ingredients.id eq id }
             .map { mapToDomain(it) }
             .firstOrNull()
     }
 
-    override fun delete(ingredientId: Long) = transaction {
-        val rowDeleted = Ingredients.deleteWhere{ id eq ingredientId }
+    override fun delete(id: Long) = transaction {
+        val rowDeleted = Ingredients.deleteWhere{ this.id eq id }
         rowDeleted > 0
     }
 
-    override fun update(id: Long, updateIngredientInfoCommand: UpdateIngredientInfoCommand) = transaction {
+    override fun update(id: Long, ingredient: IngredientDomain) = transaction {
         val rowUpdated = Ingredients.update({ Ingredients.id eq id }) {
-            it[name] = updateIngredientInfoCommand.name
-            it[description] = updateIngredientInfoCommand.description
-            it[unit] = Units.valueOf(updateIngredientInfoCommand.unit.name)
-            it[category] = Categories.valueOf(updateIngredientInfoCommand.category.name)
+            it[name] = ingredient.name
+            it[description] = ingredient.description
+            it[unit] = Units.valueOf(ingredient.unit.name)
+            it[category] = Categories.valueOf(ingredient.category.name)
         }
         rowUpdated > 0
     }

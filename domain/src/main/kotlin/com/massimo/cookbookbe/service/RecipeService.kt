@@ -1,13 +1,13 @@
-package com.massimo.cookbookbe.queries.recipe
+package com.massimo.cookbookbe.service
 
+import com.massimo.cookbookbe.ports.primary.RecipeService
 import com.massimo.cookbookbe.ports.secondary.RecipeRepository
 import org.springframework.stereotype.Service
 
 @Service
-class RecipeQueries(
+class RecipeService(
     private val recipeRepository: RecipeRepository
-) {
+) : RecipeService {
 
-    fun findById(id: Long) =
-        recipeRepository.findById(id)
+
 }

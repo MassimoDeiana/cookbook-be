@@ -4,11 +4,9 @@ import assertk.assertThat
 import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotEmpty
-import com.massimo.cookbookbe.command.ingredient.CreateIngredientCommand
-import com.massimo.cookbookbe.command.ingredient.UpdateIngredientInfoCommand
 import com.massimo.cookbookbe.domain.IngredientDomain
 import com.massimo.cookbookbe.entity.Ingredients
-import com.massimo.cookbookbe.queries.ingredient.IngredientFilter
+import com.massimo.cookbookbe.domain.IngredientFilter
 import org.instancio.Instancio
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -95,8 +93,8 @@ class IngredientDomainRepositoryTest() {
 
     fun ingredient(): IngredientDomain = Instancio.of(IngredientDomain::class.java).create()
 
-    fun createIngredient() : CreateIngredientCommand = Instancio.of(CreateIngredientCommand::class.java).create()
+    fun createIngredient() : IngredientDomain = Instancio.of(IngredientDomain::class.java).create()
 
-    fun updateIngredient() : UpdateIngredientInfoCommand = Instancio.of(UpdateIngredientInfoCommand::class.java).create()
+    fun updateIngredient() : IngredientDomain = Instancio.of(IngredientDomain::class.java).create()
 
 }

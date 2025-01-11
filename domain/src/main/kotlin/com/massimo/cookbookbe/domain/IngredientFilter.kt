@@ -1,6 +1,4 @@
-package com.massimo.cookbookbe.queries.ingredient
-
-import com.massimo.cookbookbe.domain.CategoryDomain
+package com.massimo.cookbookbe.domain
 
 data class IngredientFilter(
     val name: String? = null,
