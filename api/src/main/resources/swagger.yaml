@@ -20,11 +20,11 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/IngredientId'
+                                $ref: '#/components/schemas/Id'
         get:
             tags:
                 - ingredient
-            operationId: findAll
+            operationId: findAllIngredients
             parameters:
                 - $ref: '#/components/parameters/IngredientName'
                 - $ref: '#/components/parameters/IngredientCategory'
@@ -43,7 +43,7 @@ paths:
         get:
             tags:
                 - ingredient
-            operationId: findById
+            operationId: findIngredientById
             parameters:
                 - $ref: '#/components/parameters/IngredientId'
             responses:
@@ -67,11 +67,77 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/IngredientId'
+                                $ref: '#/components/schemas/Id'
         delete:
             tags:
                 - ingredient
             operationId: deleteIngredient
+            parameters:
+                - $ref: '#/components/parameters/IngredientId'
+            responses:
+                '204':
+                    $ref: '#/components/responses/204'
+
+    /recipe:
+        get:
+            tags:
+                - recipe
+            operationId: findAllRecipe
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Recipe'
+        post:
+            tags:
+                - recipe
+            operationId: createRecipe
+            requestBody:
+                $ref: '#/components/requestBodies/CreateRecipeCommand'
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Id'
+    /recipe/{id}:
+        get:
+            tags:
+                - recipe
+            operationId: findRecipeById
+            parameters:
+                - $ref: '#/components/parameters/IngredientId'
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Recipe'
+        put:
+            tags:
+                - recipe
+            operationId: updateRecipe
+            parameters:
+                - $ref: '#/components/parameters/IngredientId'
+            requestBody:
+                $ref: '#/components/requestBodies/UpdateRecipeCommand'
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Id'
+        delete:
+            tags:
+                - recipe
+            operationId: deleteRecipe
             parameters:
                 - $ref: '#/components/parameters/IngredientId'
             responses:
@@ -123,7 +189,7 @@ components:
             type: object
             properties:
                 id:
-                    $ref: '#/components/schemas/IngredientId'
+                    $ref: '#/components/schemas/Id'
                 name:
                     $ref: '#/components/schemas/IngredientName'
                 description:
@@ -134,7 +200,63 @@ components:
                     $ref: '#/components/schemas/Category'
                 quantityInStock:
                     $ref: '#/components/schemas/QuantityInStock'
-        IngredientId:
+        Recipe:
+            type: object
+            properties:
+                id:
+                    $ref: '#/components/schemas/Id'
+                name:
+                    $ref: '#/components/schemas/RecipeName'
+                difficulty:
+                    $ref: '#/components/schemas/Difficulty'
+                steps:
+                    $ref: '#/components/schemas/Steps'
+                preparationTime:
+                    $ref: '#/components/schemas/PreparationTime'
+                servings:
+                    $ref: '#/components/schemas/Servings'
+                ingredients:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Ingredient'
+        CreateRecipeCommand:
+            type: object
+            required:
+                - name
+                - difficulty
+                - steps
+                - preparationTime
+                - servings
+                - ingredients
+            properties:
+                name:
+                    $ref: '#/components/schemas/RecipeName'
+                difficulty:
+                    $ref: '#/components/schemas/Difficulty'
+                steps:
+                    $ref: '#/components/schemas/Steps'
+                preparationTime:
+                    $ref: '#/components/schemas/PreparationTime'
+                servings:
+                    $ref: '#/components/schemas/Servings'
+                ingredients:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Ingredient'
+        UpdateRecipeCommand:
+            type: object
+            properties:
+                name:
+                    $ref: '#/components/schemas/RecipeName'
+                difficulty:
+                    $ref: '#/components/schemas/Difficulty'
+                steps:
+                    $ref: '#/components/schemas/Steps'
+                preparationTime:
+                    $ref: '#/components/schemas/PreparationTime'
+                servings:
+                    $ref: '#/components/schemas/Servings'
+        Id:
             type: integer
             format: int64
             example: 1
@@ -170,6 +292,27 @@ components:
                 - SPICE
                 - SWEET
                 - BEVERAGE
+        RecipeName:
+            type: string
+            example: "Tomate farcie"
+        Difficulty:
+            type: string
+            example: "EASY"
+            enum:
+                - EASY
+                - MEDIUM
+                - HARD
+        Steps:
+            type: array
+            items:
+                type: string
+            example: ["Couper les tomates en deux", "Vider les tomates", "Farcir les tomates"]
+        PreparationTime:
+            type: integer
+            example: 30
+        Servings:
+            type: integer
+            example: 4
     parameters:
         IngredientId:
             name: id
@@ -223,6 +366,18 @@ components:
                 application/json:
                     schema:
                         $ref: '#/components/schemas/CreateIngredientCommand'
+        CreateRecipeCommand:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/CreateRecipeCommand'
+        UpdateRecipeCommand:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/UpdateRecipeCommand'
     responses:
         '200':
             description: Ok

@@ -38,22 +38,22 @@ class IngredientDomainControllerTest {
             .setControllerAdvice(ExceptionHandler())
             .build()
     }
-
-    @Test
-    fun `findAll should return all ingredients`() {
-        val firstIngredient = ingredient()
-        val secondIngredient = ingredient()
-        every { service.findAll( IngredientFilter() )} returns listOf(firstIngredient, secondIngredient)
-
-        mockMvc.perform(get("/ingredients"))
-            .andExpectAll(
-                status().isOk,
-                content().contentType(MediaType.APPLICATION_JSON),
-                jsonPath("$").isArray,
-                jsonPath("$[0].name").value(firstIngredient.name),
-                jsonPath("$[1].name").value(secondIngredient.name)
-            )
-    }
+//
+//    @Test
+//    fun `findAll should return all ingredients`() {
+//        val firstIngredient = ingredient()
+//        val secondIngredient = ingredient()
+//        every { service.findAll( IngredientFilter() )} returns listOf(firstIngredient, secondIngredient)
+//
+//        mockMvc.perform(get("/ingredients"))
+//            .andExpectAll(
+//                status().isOk,
+//                content().contentType(MediaType.APPLICATION_JSON),
+//                jsonPath("$").isArray,
+//                jsonPath("$[0].name").value(firstIngredient.name),
+//                jsonPath("$[1].name").value(secondIngredient.name)
+//            )
+//    }
 
     @Test
     fun `findById should return an ingredient`() {

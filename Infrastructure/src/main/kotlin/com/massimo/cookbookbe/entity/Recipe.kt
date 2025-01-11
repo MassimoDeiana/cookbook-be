@@ -8,7 +8,6 @@ object Recipe: Table() {
     val name = varchar("name", 50).uniqueIndex()
     val description = varchar("description", 255)
     val preparationTime = integer("preparation_time")
-    val cookingTime = integer("cooking_time")
     val servings = integer("servings")
     val difficulty = enumerationByName<Difficulty>("difficulty", 50)
     val category = enumerationByName<Categories>("category", 50)
