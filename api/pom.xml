@@ -143,6 +143,7 @@
         <dependency>
             <groupId>com.ninja-squad</groupId>
             <artifactId>springmockk</artifactId>
+            <version>4.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.instancio</groupId>

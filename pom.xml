@@ -19,7 +19,6 @@
         <module>api</module>
         <module>Infrastructure</module>
         <module>domain</module>
-        <module>ai</module>
     </modules>
 
     <properties>
