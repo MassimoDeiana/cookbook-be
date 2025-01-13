@@ -159,8 +159,6 @@ components:
             properties:
                 name:
                     $ref: '#/components/schemas/IngredientName'
-                description:
-                    $ref: '#/components/schemas/IngredientDescription'
                 unit:
                     $ref: '#/components/schemas/Unit'
                 category:
@@ -171,14 +169,11 @@ components:
             type: object
             required:
                 - name
-                - description
                 - unit
                 - category
             properties:
                 name:
                     $ref: '#/components/schemas/IngredientName'
-                description:
-                    $ref: '#/components/schemas/IngredientDescription'
                 unit:
                     $ref: '#/components/schemas/Unit'
                 category:
@@ -192,8 +187,6 @@ components:
                     $ref: '#/components/schemas/Id'
                 name:
                     $ref: '#/components/schemas/IngredientName'
-                description:
-                    $ref: '#/components/schemas/IngredientDescription'
                 unit:
                     $ref: '#/components/schemas/Unit'
                 category:
@@ -242,7 +235,7 @@ components:
                 ingredients:
                     type: array
                     items:
-                        $ref: '#/components/schemas/Ingredient'
+                        $ref: '#/components/schemas/RecipeIngredients'
         UpdateRecipeCommand:
             type: object
             properties:
@@ -256,6 +249,13 @@ components:
                     $ref: '#/components/schemas/PreparationTime'
                 servings:
                     $ref: '#/components/schemas/Servings'
+        RecipeIngredients:
+            type: object
+            properties:
+                id:
+                    $ref: '#/components/schemas/Id'
+                quantity:
+                    $ref: '#/components/schemas/Quantity'
         Id:
             type: integer
             format: int64
@@ -263,9 +263,6 @@ components:
         IngredientName:
             type: string
             example: "Tomate"
-        IngredientDescription:
-            type: string
-            example: "Legume rouge"
         QuantityInStock:
             type: integer
             example: 12
@@ -313,6 +310,9 @@ components:
         Servings:
             type: integer
             example: 4
+        Quantity:
+            type: integer
+            example: 2
     parameters:
         IngredientId:
             name: id

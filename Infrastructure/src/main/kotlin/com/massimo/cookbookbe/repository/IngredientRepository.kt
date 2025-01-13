@@ -33,7 +33,6 @@ class IngredientRepository : IngredientRepository{
     override fun save(ingredient: IngredientDomain) = transaction {
         Ingredients.insert {
             it[name] = ingredient.name
-            it[description] = ingredient.description
             it[unit] = Units.valueOf(ingredient.unit.name)
             it[category] = Categories.valueOf(ingredient.category.name)
         } get Ingredients.id
@@ -54,7 +53,6 @@ class IngredientRepository : IngredientRepository{
     override fun update(id: Long, ingredient: IngredientDomain) = transaction {
         val rowUpdated = Ingredients.update({ Ingredients.id eq id }) {
             it[name] = ingredient.name
-            it[description] = ingredient.description
             it[unit] = Units.valueOf(ingredient.unit.name)
             it[category] = Categories.valueOf(ingredient.category.name)
         }
@@ -66,7 +64,6 @@ class IngredientRepository : IngredientRepository{
         return IngredientDomain(
             id = resultRow[Ingredients.id],
             name = resultRow[Ingredients.name],
-            description = resultRow[Ingredients.description],
             unit = UnitDomain.valueOf(resultRow[Ingredients.unit].name),
             category = CategoryDomain.valueOf(resultRow[Ingredients.category].name),
             quantityInStock = resultRow[Ingredients.quantityInStock]

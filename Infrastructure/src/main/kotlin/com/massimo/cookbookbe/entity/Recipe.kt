@@ -6,7 +6,6 @@ import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 object Recipe: Table() {
     val id = long("id").autoIncrement()
     val name = varchar("name", 50).uniqueIndex()
-    val description = varchar("description", 255)
     val preparationTime = integer("preparation_time")
     val servings = integer("servings")
     val difficulty = enumerationByName<Difficulty>("difficulty", 50)
