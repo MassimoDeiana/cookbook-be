@@ -1,20 +1,18 @@
 package com.massimo.cookbookbe.ports.secondary
 
-import com.massimo.cookbookbe.command.ingredient.CreateIngredientCommand
-import com.massimo.cookbookbe.command.ingredient.UpdateIngredientInfoCommand
-import com.massimo.cookbookbe.domain.Ingredient
-import com.massimo.cookbookbe.queries.ingredient.IngredientFilter
+import com.massimo.cookbookbe.domain.IngredientDomain
+import com.massimo.cookbookbe.domain.IngredientFilter
 
 interface IngredientRepository {
 
-    fun findAll(ingredientFilter: IngredientFilter) : List<Ingredient>
+    fun findAll(filter: IngredientFilter) : List<IngredientDomain>
 
-    fun findById(ingredientId: Long): Ingredient?
+    fun findById(id: Long): IngredientDomain?
 
-    fun save(createIngredientCommand: CreateIngredientCommand) : Long
+    fun save(ingredient: IngredientDomain) : Long
 
-    fun delete(ingredientId: Long) : Boolean
+    fun delete(id: Long) : Boolean
 
-    fun update(id: Long, updateIngredientInfoCommand: UpdateIngredientInfoCommand) : Boolean
+    fun update(id: Long, ingredient: IngredientDomain) : Boolean
 
 }

@@ -19,7 +19,6 @@
         <module>api</module>
         <module>Infrastructure</module>
         <module>domain</module>
-        <module>ai</module>
     </modules>
 
     <properties>
@@ -41,7 +40,16 @@
                 <version>0.28.1</version>
                 <scope>test</scope>
             </dependency>
-
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>1.5.5.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>1.5.5.Final</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

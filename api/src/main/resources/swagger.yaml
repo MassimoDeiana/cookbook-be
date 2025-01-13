@@ -1,0 +1,417 @@
+openapi: 3.0.1
+info:
+    title: Cookbook API
+    description: Documentation Cookbook API v1.0
+    version: '1.0'
+servers:
+    - url: http://localhost:8080
+      description: Generated server url
+paths:
+    /ingredient:
+        post:
+            tags:
+                - ingredient
+            operationId: createIngredient
+            requestBody:
+                $ref: '#/components/requestBodies/CreateIngredientCommand'
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Id'
+        get:
+            tags:
+                - ingredient
+            operationId: findAllIngredients
+            parameters:
+                - $ref: '#/components/parameters/IngredientName'
+                - $ref: '#/components/parameters/IngredientCategory'
+                - $ref: '#/components/parameters/Order'
+                - $ref: '#/components/parameters/OrderBy'
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Ingredient'
+    /ingredient/{id}:
+        get:
+            tags:
+                - ingredient
+            operationId: findIngredientById
+            parameters:
+                - $ref: '#/components/parameters/IngredientId'
+            responses:
+                "201":
+                    description: Created
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Ingredient'
+        put:
+            tags:
+                - ingredient
+            operationId: updateIngredient
+            parameters:
+                - $ref: '#/components/parameters/IngredientId'
+            requestBody:
+                $ref: '#/components/requestBodies/UpdateIngredientInfoCommand'
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Id'
+        delete:
+            tags:
+                - ingredient
+            operationId: deleteIngredient
+            parameters:
+                - $ref: '#/components/parameters/IngredientId'
+            responses:
+                '204':
+                    $ref: '#/components/responses/204'
+
+    /recipe:
+        get:
+            tags:
+                - recipe
+            operationId: findAllRecipe
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Recipe'
+        post:
+            tags:
+                - recipe
+            operationId: createRecipe
+            requestBody:
+                $ref: '#/components/requestBodies/CreateRecipeCommand'
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Id'
+    /recipe/{id}:
+        get:
+            tags:
+                - recipe
+            operationId: findRecipeById
+            parameters:
+                - $ref: '#/components/parameters/IngredientId'
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Recipe'
+        put:
+            tags:
+                - recipe
+            operationId: updateRecipe
+            parameters:
+                - $ref: '#/components/parameters/IngredientId'
+            requestBody:
+                $ref: '#/components/requestBodies/UpdateRecipeCommand'
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Id'
+        delete:
+            tags:
+                - recipe
+            operationId: deleteRecipe
+            parameters:
+                - $ref: '#/components/parameters/IngredientId'
+            responses:
+                '204':
+                    $ref: '#/components/responses/204'
+
+    /categories:
+        get:
+            tags:
+                - utils
+            operationId: findAllCategories
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Category'
+    /units:
+        get:
+            tags:
+                - utils
+            operationId: findAllUnits
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Unit'
+    /database/refresh:
+        get:
+            tags:
+                - database-controller
+            operationId: refreshDatabase
+            responses:
+                '200':
+                    description: OK
+components:
+    schemas:
+        UpdateIngredientInfoCommand:
+            type: object
+            properties:
+                name:
+                    $ref: '#/components/schemas/IngredientName'
+                unit:
+                    $ref: '#/components/schemas/Unit'
+                category:
+                    $ref: '#/components/schemas/Category'
+                quantityInStock:
+                    $ref: '#/components/schemas/QuantityInStock'
+        CreateIngredientCommand:
+            type: object
+            required:
+                - name
+                - unit
+                - category
+            properties:
+                name:
+                    $ref: '#/components/schemas/IngredientName'
+                unit:
+                    $ref: '#/components/schemas/Unit'
+                category:
+                    $ref: '#/components/schemas/Category'
+                quantityInStock:
+                    $ref: '#/components/schemas/QuantityInStock'
+        Ingredient:
+            type: object
+            properties:
+                id:
+                    $ref: '#/components/schemas/Id'
+                name:
+                    $ref: '#/components/schemas/IngredientName'
+                unit:
+                    $ref: '#/components/schemas/Unit'
+                category:
+                    $ref: '#/components/schemas/Category'
+                quantityInStock:
+                    $ref: '#/components/schemas/QuantityInStock'
+        Recipe:
+            type: object
+            properties:
+                id:
+                    $ref: '#/components/schemas/Id'
+                name:
+                    $ref: '#/components/schemas/RecipeName'
+                difficulty:
+                    $ref: '#/components/schemas/Difficulty'
+                steps:
+                    $ref: '#/components/schemas/Steps'
+                preparationTime:
+                    $ref: '#/components/schemas/PreparationTime'
+                servings:
+                    $ref: '#/components/schemas/Servings'
+                ingredients:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Ingredient'
+        CreateRecipeCommand:
+            type: object
+            required:
+                - name
+                - difficulty
+                - steps
+                - preparationTime
+                - servings
+                - ingredients
+            properties:
+                name:
+                    $ref: '#/components/schemas/RecipeName'
+                difficulty:
+                    $ref: '#/components/schemas/Difficulty'
+                steps:
+                    $ref: '#/components/schemas/Steps'
+                preparationTime:
+                    $ref: '#/components/schemas/PreparationTime'
+                servings:
+                    $ref: '#/components/schemas/Servings'
+                ingredients:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/RecipeIngredients'
+        UpdateRecipeCommand:
+            type: object
+            properties:
+                name:
+                    $ref: '#/components/schemas/RecipeName'
+                difficulty:
+                    $ref: '#/components/schemas/Difficulty'
+                steps:
+                    $ref: '#/components/schemas/Steps'
+                preparationTime:
+                    $ref: '#/components/schemas/PreparationTime'
+                servings:
+                    $ref: '#/components/schemas/Servings'
+        RecipeIngredients:
+            type: object
+            properties:
+                id:
+                    $ref: '#/components/schemas/Id'
+                quantity:
+                    $ref: '#/components/schemas/Quantity'
+        Id:
+            type: integer
+            format: int64
+            example: 1
+        IngredientName:
+            type: string
+            example: "Tomate"
+        QuantityInStock:
+            type: integer
+            example: 12
+        Unit:
+            type: string
+            example: GRAM
+            enum:
+                - GRAM
+                - LITER
+                - PIECE
+                - TEASPOON
+                - TABLESPOON
+                - CUP
+                - SLICE
+        Category:
+            type: string
+            example: MEAT
+            enum:
+                - MEAT
+                - VEGETABLE
+                - FRUIT
+                - DAIRY
+                - GRAIN
+                - SPICE
+                - SWEET
+                - BEVERAGE
+        RecipeName:
+            type: string
+            example: "Tomate farcie"
+        Difficulty:
+            type: string
+            example: "EASY"
+            enum:
+                - EASY
+                - MEDIUM
+                - HARD
+        Steps:
+            type: array
+            items:
+                type: string
+            example: ["Couper les tomates en deux", "Vider les tomates", "Farcir les tomates"]
+        PreparationTime:
+            type: integer
+            example: 30
+        Servings:
+            type: integer
+            example: 4
+        Quantity:
+            type: integer
+            example: 2
+    parameters:
+        IngredientId:
+            name: id
+            in: path
+            required: true
+            schema:
+                type: integer
+                format: int64
+        IngredientName:
+            name: name
+            in: query
+            required: false
+            schema:
+                $ref: '#/components/schemas/IngredientName'
+        IngredientCategory:
+            name: category
+            in: query
+            required: false
+            schema:
+                $ref: '#/components/schemas/Category'
+        Order:
+            name: order
+            in: query
+            required: false
+            schema:
+                type: string
+                enum:
+                    - asc
+                    - desc
+        OrderBy:
+            name: orderBy
+            in: query
+            required: false
+            schema:
+                type: string
+                enum:
+                    - name
+                    - stock
+                    - category
+                    - unit
+    requestBodies:
+        UpdateIngredientInfoCommand:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/UpdateIngredientInfoCommand'
+        CreateIngredientCommand:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/CreateIngredientCommand'
+        CreateRecipeCommand:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/CreateRecipeCommand'
+        UpdateRecipeCommand:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/UpdateRecipeCommand'
+    responses:
+        '200':
+            description: Ok
+        '201':
+            description: Created
+        '204':
+            description: No content
+        '400':
+            description: Bad request

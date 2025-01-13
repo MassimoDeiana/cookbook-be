@@ -1,5 +1,5 @@
 ### Get all ingredients
-GET http://localhost:8080/ingredients?category=FRUIT
+GET http://localhost:8080/ingredient
 Accept: application/json
 
 ### Get ingredient by ID
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ### Update an existing ingredient
-PUT http://localhost:8080/ingredient/1
+PUT http://localhost:8080/ingredient/33
 Content-Type: application/json
 
 {

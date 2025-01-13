@@ -1,6 +1,6 @@
 package com.massimo.cookbookbe.domain
 
-enum class Category {
+enum class CategoryDomain {
     MEAT,
     VEGETABLE,
     FRUIT,
@@ -8,5 +8,5 @@ enum class Category {
     GRAIN,
     SPICE,
     SWEET,
-    BEVERAGE
+    BEVERAGE,
 }

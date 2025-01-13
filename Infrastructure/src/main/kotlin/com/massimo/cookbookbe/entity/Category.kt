@@ -8,5 +8,6 @@ enum class Categories {
     GRAIN,
     SPICE,
     SWEET,
-    BEVERAGE
+    BEVERAGE,
+    CEREAL
 }
