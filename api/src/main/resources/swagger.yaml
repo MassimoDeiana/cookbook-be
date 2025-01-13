@@ -144,6 +144,34 @@ paths:
                 '204':
                     $ref: '#/components/responses/204'
 
+    /categories:
+        get:
+            tags:
+                - utils
+            operationId: findAllCategories
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Category'
+    /units:
+        get:
+            tags:
+                - utils
+            operationId: findAllUnits
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Unit'
     /database/refresh:
         get:
             tags:

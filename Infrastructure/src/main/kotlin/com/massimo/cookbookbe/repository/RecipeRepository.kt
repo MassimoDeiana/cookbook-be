@@ -35,9 +35,6 @@ class RecipeRepository : RecipeRepository {
         } get Recipe.id
 
 
-
-
-
     private fun mapToDomain(resultRow: ResultRow): RecipeDomain {
         return RecipeDomain(
             id = resultRow[Recipe.id],
